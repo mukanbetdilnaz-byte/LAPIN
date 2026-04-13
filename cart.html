@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Моя Корзина | LAPIN</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+    /* Прячем окно оформления и фиксируем его по центру экрана */
+    .checkout-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.7); /* Темный фон */
+        backdrop-filter: blur(8px);    /* Размытие как в Steam/Wildberries */
+        display: none;                  /* СКРЫТО по умолчанию */
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Белое окошко */
+    .checkout-content {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 450px;
+        position: relative;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .checkout-title { font-family: 'Oswald'; text-align: center; margin-bottom: 20px; }
+
+    /* Поля ввода */
+    .checkout-input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-sizing: border-box;
+    }
+
+    /* Выбор оплаты */
+    .payment-methods {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+    }
+    .payment-item {
+        flex: 1;
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 10px;
+        text-align: center;
+        cursor: pointer;
+        background: #f9f9f9;
+        font-size: 0.9rem;
+    }
+
+    /* Розовая кнопка */
+    .final-order-btn {
+        width: 100%;
+        padding: 15px;
+        background: #FFB7CE;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-family: 'Oswald';
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .final-order-btn:hover { background: #ff9fb9; }
+
+    /* Крестик закрытия */
+    .close-checkout {
+        position: absolute;
+        top: 15px; right: 15px;
+        background: none; border: none;
+        font-size: 24px; cursor: pointer;
+    }
+</style>
+
+</head>
+<body>
+    <header>
+        <a href="index.html" style="text-decoration:none; color:pink;">← Вернуться к покупкам</a>
+    </header>
+
+    <div class="container" style="margin: 50px 9%;">
+        <h1 style="font-family: 'Oswald'; border-bottom: 2px solid #FFDDEB; padding-bottom: 20px;">ВАША КОРЗИНА</h1>
+        
+        <div id="cart-list">
+            </div>
+
+        <div id="cart-total" style="margin-top: 30px; text-align: right; font-family: 'Oswald';">
+            <h3>Итого: <span id="total-price">0</span> ₸</h3>
+            <button class="add-to-cart-btn" style="width: 200px;" onclick="checkout()">ОФОРМИТЬ ЗАКАЗ</button>
+        </div>
+    </div>
+
+    <script>
+        // Код для отображения товаров
+        function displayCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const container = document.getElementById('cart-list');
+            let total = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = "<h3>В корзине пока пусто :(</h3>";
+                return;
+            }
+
+            container.innerHTML = cart.map((item, index) => {
+                const priceNum = parseInt(item.price.replace(/\s/g, ''));
+                total += priceNum;
+                return `
+                    <div class="wish-item" style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px; border-radius: 15px; margin-bottom: 10px; border: 1px solid #eee;">
+                        <img src="${item.img}" style="width: 80px; border-radius: 10px;">
+                        <div style="flex: 1; margin-left: 20px;">
+                            <h4 style="margin:0;">${item.title}</h4>
+                            <p style="color: #FFB7CE; font-weight: bold;">${item.price}</p>
+                        </div>
+                        <button onclick="removeItem(${index})" style="background: none; border: none; color: red; cursor: pointer;">Удалить</button>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('total-price').innerText = total.toLocaleString();
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('cart'));
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+
+        displayCart();
+
+        // 1. Функция, которую мы ставим на кнопку "ОФОРМИТЬ" в корзине
+function checkout() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    if (cart.length === 0) {
+        alert("В корзине пока пусто!");
+        return;
+    }
+
+    // Считаем сумму и количество
+    let totalSum = 0;
+    cart.forEach(item => {
+        const price = parseInt(item.price.replace(/[^0-9]/g, ''));
+        totalSum += price;
+    });
+
+    // Заполняем данные в модалке
+    document.getElementById('checkout-count').innerText = cart.length;
+    document.getElementById('checkout-sum').innerText = totalSum.toLocaleString() + " ₸";
+
+    // Показываем окно
+    document.getElementById('checkout-modal').style.display = 'flex';
+}
+
+function closeCheckout() {
+    document.getElementById('checkout-modal').style.display = 'none';
+}
+
+// 2. Финальное подтверждение
+function confirmFinalOrder() {
+    const address = document.getElementById('user-address').value;
+    
+    if (address.length < 5) {
+        alert("Пожалуйста, введите полный адрес доставки.");
+        return;
+    }
+
+    alert(`Заказ оформлен!\nДоставка по адресу: ${address}\n\nСпасибо за покупку в LAPIN!`);
+    
+    localStorage.removeItem('cart');
+    
+    // Проверка: если функция updateBadges существует — запускаем её
+    if (typeof updateBadges === "function") {
+        updateBadges();
+    }
+    
+    closeCheckout();
+    location.reload(); 
+}
+
+function togglePaymentFields(type) {
+    const infoDiv = document.getElementById('payment-extra-info');
+    
+    if (type === 'card') {
+        infoDiv.innerHTML = `
+            <div id="card-fields">
+                <input type="text" placeholder="Номер карты (0000 0000 0000 0000)" class="checkout-input">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" placeholder="ММ/ГГ" class="checkout-input" style="flex: 1;">
+                    <input type="text" placeholder="CVV" class="checkout-input" style="flex: 1;">
+                </div>
+            </div>`;
+    } else if (type === 'kaspi') {
+        infoDiv.innerHTML = `
+            <div id="kaspi-fields" style="background: #fdf2f5; padding: 15px; border-radius: 12px; border: 1px solid #FFB7CE;">
+                <p style="font-size: 0.9rem; color: #e91e63; margin-bottom: 5px;"><b>Оплата через Kaspi.kz</b></p>
+                <input type="tel" id="kaspi-phone" placeholder="+7 (7__) ___ __ __" class="checkout-input" value="+7 ">
+                <p style="font-size: 0.8rem; color: #888;">Введите номер, привязанный к Kaspi. Мы отправим вам счет на оплату в приложение.</p>
+            </div>`;
+    }
+}
+
+</script>
+
+    <div id="checkout-modal" class="checkout-overlay">
+    <div class="checkout-content">
+        <button class="close-checkout" onclick="closeCheckout()">×</button>
+        <h2 class="checkout-title">ОФОРМЛЕНИЕ ЗАКАЗА</h2>
+        
+        <div class="checkout-body">
+            <div class="checkout-section">
+                <h4><i class="fas fa-map-marker-alt"></i> АДРЕС ДОСТАВКИ</h4>
+                <input type="text" id="user-address" placeholder="Город, улица, дом, квартира" class="checkout-input">
+            </div>
+
+            <div class="checkout-section">
+                <h4><i class="fas fa-credit-card"></i> СПОСОБ ОПЛАТЫ</h4>
+            <div class="payment-methods">
+            <label class="payment-item">
+                <input type="radio" name="payment" value="card" checked onclick="togglePaymentFields('card')">
+                <span>Картой онлайн</span>
+            </label>
+                <label class="payment-item">
+                <input type="radio" name="payment" value="kaspi" onclick="togglePaymentFields('kaspi')">
+                <span>Kaspi.kz</span>
+                </label>
+    </div>
+
+    <div id="payment-extra-info" style="margin-top: 15px;">
+        <div id="card-fields">
+            <input type="text" placeholder="Номер карты (0000 0000 0000 0000)" class="checkout-input">
+            <div style="display: flex; gap: 10px;">
+                <input type="text" placeholder="ММ/ГГ" class="checkout-input" style="flex: 1;">
+                <input type="text" placeholder="CVV" class="checkout-input" style="flex: 1;">
+            </div>
+        </div>
+    </div>
+</div>
+
+            <div class="checkout-total">
+                <span>Товаров в корзине: <b id="checkout-count">0</b></span>
+                <span>Итого к оплате: <b id="checkout-sum">0 ₸</b></span>
+            </div>
+
+            <button class="final-order-btn" onclick="confirmFinalOrder()">ОПЛАТИТЬ И ЗАКАЗАТЬ</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

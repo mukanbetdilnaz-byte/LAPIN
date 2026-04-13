@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой Профиль | LAPIN</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { background: #fffaff; font-family: 'Montserrat', sans-serif; margin: 0; }
+        
+        /* Стили формы (когда не вошел) */
+        .auth-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(255, 183, 206, 0.2);
+            text-align: center;
+        }
+
+        /* Стили кабинета (как в WB) */
+        .profile-wrapper {
+            display: flex;
+            gap: 30px;
+            padding: 20px 9%;
+            margin-top: 40px;
+            align-items: flex-start;
+        }
+
+        .profile-sidebar {
+            width: 280px;
+            background: white;
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-menu { list-style: none; padding: 0; margin-top: 20px; }
+        .sidebar-menu li {
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #555;
+        }
+        .sidebar-menu li:hover { background: #fff0f5; color: #FFB7CE; }
+        .sidebar-menu li.active { background: #FFB7CE; color: white; }
+
+        .profile-main {
+            flex: 1;
+            background: white;
+            padding: 35px;
+            border-radius: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            min-height: 450px;
+        }
+
+        /* Общие элементы */
+        h2 { font-family: 'Oswald'; letter-spacing: 2px; margin-top: 0; }
+        .auth-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .profile-btn {
+            width: 100%;
+            padding: 15px;
+            background: #FFB7CE;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Oswald';
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+        .profile-btn:hover { background: #ff9fb9; }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .status-card {
+            background: #fdfdfd;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #f0f0f0;
+        }
+        .status-card i { font-size: 24px; color: #FFB7CE; margin-bottom: 10px; }
+        
+        .switch-link { margin-top: 20px; font-size: 0.9rem; color: #888; }
+        .switch-link span { color: #FFB7CE; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header style="padding: 20px 9%; background: white; border-bottom: 1px solid #eee;">
+        <a href="index.html" style="text-decoration: none; color: #FFB7CE; font-weight: bold;">← Вернуться в магазин</a>
+    </header>
+
+    <div id="auth-box" class="auth-container">
+        <h2 id="form-title">ВХОД</h2>
+        <form onsubmit="handleProfileAuth(event)">
+            <input type="email" id="email" placeholder="Ваш Email" required class="auth-input">
+            <input type="password" id="pass" placeholder="Пароль" required class="auth-input">
+            <button type="submit" id="submit-btn" class="profile-btn">ВОЙТИ</button>
+        </form>
+        <p class="switch-link">
+            <span id="toggle-text">Нет аккаунта?</span> 
+            <span onclick="toggleMode()" id="toggle-btn">Зарегистрироваться</span>
+        </p>
+    </div>
+
+    <div class="profile-wrapper" id="user-box" style="display: none;">
+        <aside class="profile-sidebar">
+            <div style="text-align: center; margin-bottom: 25px;">
+                <div style="width: 70px; height: 70px; background: #fff0f5; border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-user" style="font-size: 30px; color: #FFB7CE;"></i>
+                </div>
+                <b id="user-email-display" style="font-size: 0.85rem; color: #333; word-break: break-all;"></b>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="active"><i class="fas fa-box"></i> Мои заказы</li>
+                <li><i class="fas fa-user-cog"></i> Личные данные</li>
+                <li onclick="logout()" style="color: #ff4d4d; margin-top: 20px;"><i class="fas fa-sign-out-alt"></i> Выйти</li>
+            </ul>
+        </aside>
+
+        <main class="profile-main">
+            <h2 style="text-align: left; margin-bottom: 25px;">ЛИЧНЫЙ КАБИНЕТ</h2>
+            
+            <div class="info-cards">
+                <div class="status-card">
+                    <i class="fas fa-truck"></i>
+                    <h4>0 товаров</h4>
+                    <p style="font-size: 0.8rem; color: #888;">в пути</p>
+                </div>
+                <div class="status-card">
+                    <i class="fas fa-store"></i>
+                    <h4>0 товаров</h4>
+                    <p style="font-size: 0.8rem; color: #888;">в пункте выдачи</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 60px; text-align: center; color: #bbb;">
+                <i class="fas fa-shopping-basket" style="font-size: 50px; opacity: 0.2; margin-bottom: 15px;"></i>
+                <p>Здесь будут отображаться ваши покупки</p>
+                <a href="index.html" class="profile-btn" style="display: inline-block; width: auto; padding: 12px 40px; margin-top: 15px;">ЗА ПОКУПКАМИ</a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        window.onload = function() {
+            const user = localStorage.getItem('currentUser');
+            if (user) {
+                showProfile(user);
+            } else {
+                document.getElementById('auth-box').style.display = 'block';
+                document.getElementById('user-box').style.display = 'none';
+            }
+        };
+
+        function toggleMode() {
+            isLogin = !isLogin;
+            document.getElementById('form-title').innerText = isLogin ? "ВХОД" : "РЕГИСТРАЦИЯ";
+            document.getElementById('submit-btn').innerText = isLogin ? "ВОЙТИ" : "СОЗДАТЬ АККАУНТ";
+            document.getElementById('toggle-text').innerText = isLogin ? "Нет аккаунта?" : "Уже есть аккаунт?";
+            document.getElementById('toggle-btn').innerText = isLogin ? "Зарегистрироваться" : "Войти";
+        }
+
+        function handleProfileAuth(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('pass').value;
+
+            if (isLogin) {
+                const savedPass = localStorage.getItem('user_' + email);
+                if (savedPass === pass) {
+                    localStorage.setItem('currentUser', email);
+                    showProfile(email);
+                } else {
+                    alert("Неверный email или пароль!");
+                }
+            } else {
+                localStorage.setItem('user_' + email, pass);
+                alert("Регистрация успешна! Теперь войдите в аккаунт.");
+                toggleMode();
+            }
+        }
+
+        function showProfile(email) {
+            document.getElementById('auth-box').style.display = 'none';
+            document.getElementById('user-box').style.display = 'flex';
+            document.getElementById('user-email-display').innerText = email;
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            location.reload();
+        }
+    </script>
+</body>
+</html>

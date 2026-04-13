@@ -1,0 +1,885 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+:root {
+    --pink:#ffa7c9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Oswald, sans-serif;
+    text-decoration: none;
+    transition: .2s linear;
+}
+
+html {
+    font-size: 92%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    overflow-x: hidden;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 9%;
+    z-index: 1000;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+header .logo {
+    font-size: 3rem;
+    color: var(--pink);
+}
+
+header .navbar a {
+    font-size: 1.3rem;
+    padding: 0 1.5rem;
+    color: #666;
+}
+
+header .navbar a:hover {
+    color: var(--pink);
+}
+
+header .icons a {
+    font-size: 2rem;
+    color: #333;
+    margin-left: 3rem;
+}
+
+header .icons a:hover {
+    color: var(--pink);
+}
+
+header #toggler {
+    display: none;
+}
+
+body {
+    padding-top: 120px;
+}
+
+.filter-wrapper {
+    background-color: #FFDDEB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 9%;
+    padding: 10px 30px;
+    border-radius: 50px;
+    color: #FFFFFF;
+    font-family: 'Oswald', sans-serif;
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+}
+
+header .navbar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.header-search input {
+    background: #fdf0f5;
+    border: 1.5px solid var(--pink);
+    padding: 8px 35px 8px 15px;
+    border-radius: 20px;
+    outline: none;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    width: 350px;
+    transition: width 0.3s;
+}
+
+.header-search input:focus {
+    width: 400px;
+    background: #fff;
+}
+
+.header-search i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--pink);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.filter-dropdown {
+    position: relative;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    padding: 10px 0;
+    z-index: 100;
+    list-style: none;
+    border: 1px solid #FFDDEB;
+    margin-top: 0;
+    font-family: 'Oswald', sans-serif;
+}
+
+.dropdown-content li a {
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    transition: 0.3s;
+}
+
+.dropdown-content li a:hover {
+    background-color: #fdf0f5;
+    color: var(--pink);
+    font-family: 'Oswald', sans-serif;
+}
+
+.filter-dropdown:hover .dropdown-content {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.location-dropdown {
+    position: relative;
+}
+
+.location-content {
+    right: 0;
+    left: auto;
+    text-align: right;
+}
+
+.filter-dropdown:hover .dropdown-content {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.filter-wrapper {
+    background-color: #FFDDEB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 9%;
+    padding: 10px 30px;
+    border-radius: 50px;
+    color: #FFFFFF;
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;
+}
+
+.filter-dropdown {
+    position: relative;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    padding: 10px 0;
+    z-index: 100;
+    list-style: none;
+    border-top: 15px solid transparent; 
+    margin-top: -5px; 
+}
+
+.location-content {
+    right: 0;
+    left: auto;
+}
+
+.filter-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content li a {
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    transition: 0.3s;
+}
+
+.dropdown-content li a:hover {
+    background-color: #fdf0f5;
+    color: #ffb7ce;
+}
+
+/* 1. Исправление первой проблемы: Выравнивание баннеров */
+.banner-section {
+    display: flex;
+    gap: 20px;
+    padding: 0 9%;
+    margin-top: 30px;
+    /* Задаем фиксированную высоту для всей секции, 
+       чтобы оба баннера всегда были одинаковыми */
+    height: 500px; /* Можешь изменить эту цифру, если хочешь баннеры покороче или длиннее */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Общие стили для ссылок-баннеров */
+.banner-link {
+    flex: 1; /* Оставляем их равными по ширине 50/50 */
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    display: block;
+    height: 100%; /* Заставляем ссылку занимать всю высоту секции */
+}
+
+/* Стиль для дивов внутри ссылок (сохраняем для позиционирования текста) */
+.banner-promo, .banner-brands {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* 2. Исправление второй проблемы: Запрет на увеличение видео/картинки */
+/* Объединяем правила для видео и картинки */
+.promo-video, .banner-brands img {
+    width: 100% !important;  /* Жестко на всю ширину */
+    height: 100% !important; /* Жестко на всю высоту контейнера (500px) */
+    object-fit: cover;       /* Умная обрезка: заполняет блок без искажений */
+    display: block;
+    position: absolute;      /* Фиксируем внутри родителя */
+    top: 0;
+    left: 0;
+}
+
+/* Центрируем заголовки ТРЕНДЫ и АКЦИИ поверх */
+.banner-title {
+    position: absolute; /* Оставляем absolute, чтобы текст был ПОВЕРХ видео/картинки */
+    /* УДАЛЯЕМ bottom: 30px; и right: 30px; если они были */
+    top: 50%;
+    left: 22%;
+    transform: translate(-50%, -50%);
+    margin: 0; 
+    color: #FFB7CE;
+    font-size: 4rem; /* Можно сделать чуть крупнее, раз он в центре */
+    font-family: 'Oswald', sans-serif !important;
+    text-transform: uppercase; /* Тень, чтобы текст лучше читался на фоне видео */
+    z-index: 2; /* Чтобы текст точно был над видео */
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 280px));
+    gap: 20px;
+    margin: 40px 9%;
+    justify-content: center;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 25px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-image {
+    position: relative;
+    background-color: #f9f9f9;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+.product-image img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    object-fit: cover;
+}
+
+.wishlist-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    color: #ffb7ce;
+    transition: 0.3s;
+}
+
+.wishlist-btn:hover {
+    background: #ffb7ce;
+    color: white;
+}
+
+.product-info {
+    padding: 15px;
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+}
+
+.product-title {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.product-price {
+    font-weight: bold;
+    color: #000;
+    font-size: 1.2rem;
+}
+
+.main-footer {
+    background-color: #fdf0f5; /* Очень светлый розовый */
+    padding: 60px 0 20px;
+    margin-top: 50px;
+    border-top: 1px solid #FFDDEB;
+    font-family: 'Oswald', sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 82%; /* Чтобы совпадало с 9% отступами по бокам */
+    margin: 0 auto;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.footer-logo {
+    color: #FFB7CE;
+    font-size: 2.2rem;
+    letter-spacing: 5px;
+    margin-bottom: 20px;
+}
+
+.footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.footer-section p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    text-decoration: none;
+    color: #666;
+    transition: 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #FFB7CE;
+    padding-left: 5px;
+}
+
+/* Иконки соцсетей */
+.social-icons {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    font-size: 1.5rem;
+    color: #FFB7CE;
+    transition: transform 0.3s;
+}
+
+.social-icons a:hover {
+    transform: translateY(-5px);
+}
+
+/* Нижняя полоска */
+.footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 183, 206, 0.3);
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.icons a, .navbar a {
+    position: relative; /* Чтобы цифра "сидела" на иконке */
+}
+
+.count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #FFB7CE; /* Твой любимый розовый */
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+    display: none; /* Прячем, пока там 0 */
+}
+
+/* Если в счетчике больше 0, мы его покажем через JS */
+.count.show {
+    display: block;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px; /* Спрятана справа */
+    width: 350px;
+    height: 100%;
+    background: white;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    z-index: 1000;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 30px;
+    font-family: 'Oswald', sans-serif;
+}
+
+.sidebar.active {
+    right: 0; /* Выплывает! */
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #FFDDEB;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+#overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3);
+    display: none;
+    z-index: 999;
+}
+
+#overlay.active { display: block; }
+
+/* Стиль товара внутри избранного */
+.wish-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-bottom: 1px f9f9f9 solid;
+}
+
+.wish-item img { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; }
+
+button.add-to-cart-btn {
+    width: 100%;
+    background-color: #FFB7CE; /* Розовый */
+    color: white;
+    border: none;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 15px;
+    font-family: 'Oswald', sans-serif;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+button.add-to-cart-btn:hover {
+    background-color: #ff9dbb !important; /* Чуть темнее при наведении */
+    transform: scale(1.02) !important;
+    transition: 0.3s;
+}
+
+/* Стиль для цифры над корзиной */
+#cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #FFB7CE!important;
+    color: white!important;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    display: none; /* Спрятано, пока корзина пуста */
+}
+
+/* Контейнер для профиля */
+.profile-card {
+    transition: transform 0.3s ease !important;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+}
+
+.profile-card p {
+    margin: 10px 0;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* --- УЛУЧШЕННЫЕ ОТЗЫВЫ LAPIN --- */
+.review-section {
+    margin: 60px auto;
+    padding: 20px;
+    max-width: 800px; /* Сужаем блок, чтобы он был по центру и ровным */
+    font-family: 'Oswald', sans-serif;
+}
+
+.review-title {
+    font-size: 28px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    text-align: center; /* Заголовок по центру */
+}
+
+/* Карточка отзыва */
+.review-item {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+}
+
+.review-author {
+    color: #FFB7CE;
+    font-weight: bold;
+    font-size: 1.2rem; /* Увеличили имя */
+    display: block;
+}
+
+/* Звездочки */
+.review-stars {
+    color: #FFD700; /* Золотой цвет */
+    margin: 5px 0 10px 0;
+    font-size: 14px;
+}
+
+.review-text {
+    color: #333; /* Сделали текст темнее */
+    font-size: 1.1rem; /* Увеличили текст отзыва */
+    font-family: sans-serif; /* Для чтения лучше обычный шрифт */
+    line-height: 1.6;
+}
+
+/* Форма */
+.add-review-form {
+    background: #fff;
+    padding: 40px;
+    border-radius: 25px;
+    border: 1px solid #eee;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 18px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 1rem;
+}
+
+.submit-review-btn {
+    background: #FFB7CE;
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: 100%;
+    text-transform: uppercase;
+}
+
+/* 1. Прячем этот блок и делаем его полноэкранным */
+#catalog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Затемнение фона */
+    backdrop-filter: blur(10px);    /* Размытие фона как в Steam */
+    display: none;                  /* СКРЫВАЕМ ПО УМОЛЧАНИЮ */
+    z-index: 10000;                 /* Чтобы был поверх всего */
+    justify-content: center;
+    align-items: center;
+}
+
+/* 2. Стилизуем само окно внутри */
+.catalog-modal {
+    background: white;
+    padding: 40px;
+    border-radius: 30px;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+}
+
+/* 3. Делаем кнопки красивыми (не как стандартные серые кнопки) */
+.catalog-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.catalog-links button {
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #f0f0f0;
+    font-family: 'Oswald', sans-serif;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.catalog-links button:hover {
+    background: #FFB7CE;
+    color: white;
+}
+
+.checkout-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    display: none; /* Скрыто */
+    z-index: 30000;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkout-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 25px;
+    position: relative;
+    font-family: 'Oswald', sans-serif;
+}
+
+.checkout-title { text-align: center; margin-bottom: 25px; letter-spacing: 1px; }
+
+.checkout-section { margin-bottom: 20px; }
+.checkout-section h4 { font-size: 0.9rem; color: #888; margin-bottom: 10px; }
+
+.checkout-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.payment-methods { display: flex; gap: 10px; }
+.payment-item {
+    flex: 1;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+.checkout-total {
+    border-top: 1px dashed #ddd;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.checkout-total b { color: #FFB7CE; font-size: 1.2rem; }
+
+.final-order-btn {
+    width: 100%;
+    padding: 15px;
+    background: #FFB7CE;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.final-order-btn:hover { background: #ff9fb9; }
+.close-checkout { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; }
+
+/* Делаем окно оформления заказа невидимым и фиксированным по центру */
+.checkout-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Темный фон */
+    backdrop-filter: blur(8px);    /* Размытие фона */
+    display: none;                  /* СКРЫТО ПО УМОЛЧАНИЮ */
+    z-index: 99999;                 /* Поверх всего */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Стили самого белого окошка */
+.checkout-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    font-family: 'Oswald', sans-serif;
+    position: relative;
+}
+
+/* Красивые поля ввода */
+.checkout-input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Кнопка оплаты */
+.final-order-btn {
+    background: #FFB7CE;
+    color: white;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.final-order-btn:hover {
+    background: #ff9fb9;
+}
+
+.auth-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    display: none; /* Скрыто */
+    z-index: 100000;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-content {
+    background: white;
+    padding: 40px;
+    border-radius: 30px;
+    width: 350px;
+    text-align: center;
+    position: relative;
+    font-family: 'Oswald', sans-serif;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 15px;
+    background: #FFB7CE;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: 'Oswald';
+}
+
+.auth-switch { margin-top: 20px; font-size: 0.9rem; }
+.auth-switch a { color: #FFB7CE; text-decoration: none; font-weight: bold; }
+.close-auth { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; }

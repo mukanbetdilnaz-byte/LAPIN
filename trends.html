@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Бренды | LAPIN</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        body { display: block; background: #fff; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; }
+        
+        /* Шапка */
+        .brands-header { padding: 20px 9% 10px; text-align: left; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #FFB7CE; text-decoration: none; font-weight: bold; }
+        .brands-header h1 { font-family: 'Oswald'; font-size: 2.5rem; text-transform: uppercase; margin: 10px 0 20px; }
+
+        /* Круглые категории */
+        .categories-row { display: flex; gap: 20px; overflow-x: auto; padding: 0 9% 20px; margin-bottom: 30px; }
+        .cat-item { text-align: center; min-width: 100px; cursor: pointer; }
+        .cat-circle { 
+            width: 200px; height: 200px; background: #f6f6f6; border-radius: 50%; 
+            margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; 
+        }
+        .cat-circle img { width: 80%; height: 80%; object-fit: contain; }
+        .cat-item span { font-size: 12px; font-weight: bold; color: #333; font-family: 'Oswald'; }
+
+        /* Сетка брендов */
+        .brands-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; padding: 0 9% 40px; }
+        .brand-card { 
+            background: #f6f6f6; border-radius: 12px; height: 150px; 
+            display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; transition: 0.3s; font-family: 'Oswald'; font-weight: bold;
+        }
+        .brand-card:hover { background: #eee; transform: translateY(-3px); }
+
+        /* Контейнер для вылетающих товаров */
+        #brands-products-section { padding: 40px 9%; background: #fdfdfd; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
+        
+        /* Стиль карточки товара как на твоем скриншоте */
+        .product-card { background: white; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .product-card img { width: 100%; border-radius: 15px; margin-bottom: 10px; }
+        .product-card h3 { font-family: 'Oswald'; font-size: 1rem; margin: 10px 0; text-transform: uppercase; }
+        .product-card .price { font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
+        .add-btn { background: #FFB7CE; color: white; border: none; width: 100%; padding: 12px; border-radius: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <div class="brands-header">
+        <a href="index.html" class="back-link">← НА ГЛАВНУЮ</a>
+        <h1>LAPIN</h1>
+    </div>
+
+    <div class="categories-row">
+        <div class="cat-item" onclick="filterData('top', 'Верхняя одежда')">
+            <div class="cat-circle"><img src="women.png" alt=""></div>
+            <span>ВЕРХ</span>
+        </div>
+        <div class="cat-item" onclick="filterData('shoes', 'Обувь')">
+            <div class="cat-circle"><img src="shoes.png" alt=""></div>
+            <span>ОБУВЬ</span>
+        </div>
+        <div class="cat-item" onclick="filterData('accessories', 'Аксессуары')">
+            <div class="cat-circle"><img src="accessories.png" alt=""></div>
+            <span>АКСЕССУАРЫ</span>
+        </div>
+    </div>
+
+    <div class="brands-grid">
+        <div class="brand-card" onclick="filterData('zara', 'Коллекция Zara')">ZARA</div>
+        <div class="brand-card" onclick="filterData('demonia', 'Demonia Cult')">DEMONIA</div>
+        <div class="brand-card" onclick="filterData('dior', 'Christian Dior')">DIOR</div>
+        <div class="brand-card" onclick="filterData('lois_vitton', 'Lois Vitton')">LOIS VITTON</div>
+    </div>
+
+    <div id="brands-products-section" style="display: none;">
+        <h2 id="category-title" style="font-family: 'Oswald'; text-transform: uppercase;"></h2>
+        <div class="products-grid" id="items-container"></div>
+    </div>
+
+    <script>
+        // БАЗА ТОВАРОВ
+        const productsDB = [
+            { name: "Свитер", price: "10 900 ₸", cat: "top", brand: "zara", img: "product1.jpg" },
+            { name: "Ботинки", price: "45 000 ₸", cat: "shoes", brand: "demonia", img: "product2.jpg" },
+            { name: "Сумка", price: "25 000 ₸", cat: "accessories", brand: "dior", img: "black bag.jpg" }
+        ];
+
+        function filterData(key, title) {
+            const section = document.getElementById('brands-products-section');
+            const container = document.getElementById('items-container');
+            const titleLabel = document.getElementById('category-title');
+
+            container.innerHTML = '';
+            
+            // Ищем совпадение либо по категории, либо по бренду
+            const filtered = productsDB.filter(p => p.cat === key || p.brand === key);
+
+            if (filtered.length > 0) {
+                filtered.forEach(item => {
+                    container.innerHTML += `
+                        <div class="product-card">
+                            <img src="${item.img}" alt="">
+                            <h3>${item.name}</h3>
+                            <div class="price">${item.price}</div>
+                            <button class="add-btn">В корзину</button>
+                        </div>
+                    `;
+                });
+                titleLabel.innerText = title;
+                section.style.display = 'block';
+                section.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert("Товары для '" + title + "' скоро будут добавлены!");
+            }
+        }
+    </script>
+</body>
+</html>

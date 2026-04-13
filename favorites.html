@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Избранное | LAPIN</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" style="text-decoration:none; color:#FFB7CE; font-family: 'Oswald'; display: inline-block; margin: 20px;">← НА ГЛАВНУЮ</a>
+    </header>
+
+    <div class="container" style="padding: 0 9%;">
+        <h1 style="font-family: 'Oswald'; border-bottom: 2px solid #FFDDEB; padding-bottom: 15px;">МОИ ИЗБРАННЫЕ</h1>
+        
+        <div id="favorites-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 30px; margin-top: 30px;">
+            </div>
+    </div>
+
+    <script>
+        function displayFavorites() {
+            const favs = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const container = document.getElementById('favorites-list');
+
+            if (favs.length === 0) {
+                container.innerHTML = "<h3 style='font-family: Oswald;'>Lapin ♡</h3>";
+                return;
+            }
+
+            container.innerHTML = favs.map((item, index) => `
+                <div class="product-card" style="position: relative; background: white; padding: 15px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <img src="${item.img}" style="width: 100%; border-radius: 15px;">
+                    <h3 style="font-family: 'Oswald'; margin: 15px 0 5px;">${item.title}</h3>
+                    <p style="color: #FFB7CE; font-weight: bold;">${item.price}</p>
+                    <button onclick="removeFromFav(${index})" style="background: #eee; border: none; padding: 8px 15px; border-radius: 10px; cursor: pointer; width: 100%; margin-top: 10px; font-family: 'Oswald';">УДАЛИТЬ</button>
+                </div>
+            `).join('');
+        }
+
+        function removeFromFav(index) {
+            let favs = JSON.parse(localStorage.getItem('wishlist'));
+            favs.splice(index, 1);
+            localStorage.setItem('wishlist', JSON.stringify(favs));
+            displayFavorites();
+        }
+
+        displayFavorites();
+    </script>
+</body>
+</html>

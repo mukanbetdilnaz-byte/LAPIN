@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>L A P I N</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <body>
+        <header>
+
+            <a href="#" class="logo">L A P I N</a>
+
+            <nav class="navbar">
+                <nav class="navbar">
+    <a href="favorites.html" id="wishlist-link" style="text-decoration: none; color: inherit;">Избранное <span class="count" id="wish-count">0</span>
+</a>
+            </nav>
+
+            <div class="header-search">
+                <input type="text" id="search-input" placeholder="Найти на L A P I N">
+                <button onclick="runSearch()"><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="icons">
+                <div class="icons">
+                <a href="cart.html" class="fas fa-shopping-cart" id="cart-icon" style="position: relative; text-decoration: none; color: inherit;">
+    <span class="count" id="cart-count">0</span>
+</a>
+            <span class="count" id="cart-count">0</span>
+            </a>
+    
+    <a href="profile.html" class="fas fa-user" id="profile-icon" style="text-decoration: none; color: inherit; margin-left: 15px;"></a>
+</div>
+        </header>
+
+        <div class="filter-wrapper">
+    <div class="filter-dropdown">
+        <div class="filter-item btn-trigger" onclick="toggleCatalog()">
+            <i class="fas fa-sliders-h"></i>
+            <span>КАТАЛОГ</span>
+        </div>
+        
+        <ul class="dropdown-content">
+            <li><a href="javascript:void(0)" onclick="filterProducts('ВСЕ')">Все товары</a></li>
+            <li><a href="javascript:void(0)" onclick="filterProducts('ВЕРХНЯЯ ОДЕЖДА')">Верхняя одежда</a></li>
+            <li><a href="javascript:void(0)" onclick="filterProducts('НИЖНЯЯ ОДЕЖДА')">Нижняя одежда</a></li>
+            <li><a href="javascript:void(0)" onclick="filterProducts('ГОЛОВНЫЕ УБОРЫ')">Головные уборы</a></li>
+            <li><a href="javascript:void(0)" onclick="filterProducts('АКСЕССУАРЫ')">Аксессуары</a></li>
+            <li><a href="javascript:void(0)" onclick="filterProducts('ПЛАТЬЯ')">Платья</a></li>
+        </ul>
+    </div>
+</div>
+</div>
+
+<section class="banner-section">
+    <a href="trends.html" class="banner-link">
+        <div class="banner-promo">
+            <video autoplay muted loop playsinline class="promo-video">
+                <source src="fashion.mp4" type="video/mp4">
+            </video>
+            <h2 class="banner-title cursive">БРЕНДЫ</h2>
+        </div>
+    </a>
+
+    <a href="sale.html" class="banner-link">
+        <div class="banner-brands">
+            <img src="brands.jpg" alt="Бренды">
+            <h2 class="banner-title">АКЦИИ</h2>
+        </div>
+    </a>
+</section>
+
+<section class="products-grid">
+    <div class="product-card" data-category="ВЕРХНЯЯ ОДЕЖДА">
+        <div class="product-image">
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+            <img src="product1.jpg" alt="СВИТЕР" onclick="openProduct('СВИТЕР', '10 900 ₸', 'product1.jpg')" style="cursor: pointer;">
+        </div>
+        <div class="product-info">
+            <h3 class="product-title" onclick="openProduct('СВИТЕР', '10 900 ₸', 'product1.jpg')" style="cursor: pointer;">СВИТЕР</h3>
+            <span class="product-price">10 900 ₸</span>
+            <button class="add-to-cart-btn">В КОРЗИНУ</button>
+        </div>
+    </div>
+
+    <div class="product-card" data-category="НИЖНЯЯ ОДЕЖДА">
+        <div class="product-image">
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+            <img src="product2.jpg" alt="САПОГИ" onclick="openProduct('САПОГИ', '15 000 ₸', 'product2.jpg')" style="cursor: pointer;">
+        </div>
+        <div class="product-info">
+            <h3 class="product-title" onclick="openProduct('САПОГИ', '15 000 ₸', 'product2.jpg')" style="cursor: pointer;">САПОГИ</h3>
+            <span class="product-price">15 000 ₸</span>
+            <button class="add-to-cart-btn">В КОРЗИНУ</button>
+        </div>
+    </div>
+
+    <div class="product-card" data-category="НИЖНЯЯ ОДЕЖДА">
+        <div class="product-image">
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+            <img src="product3.jpg" alt="БРЮКИ" onclick="openProduct('БРЮКИ', '12 500 ₸', 'product3.jpg')" style="cursor: pointer;">
+        </div>
+        <div class="product-info">
+            <h3 class="product-title" onclick="openProduct('БРЮКИ', '12 500 ₸', 'product3.jpg')" style="cursor: pointer;">БРЮКИ</h3>
+            <span class="product-price">12 500 ₸</span>
+            <button class="add-to-cart-btn">В КОРЗИНУ</button>
+        </div>
+    </div>
+
+    <div class="product-card" data-category="АКСЕССУАРЫ">
+        <div class="product-image">
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+            <img src="product4.jpg" alt="СУМКА" onclick="openProduct('СУМКА', '7 000 ₸', 'product4.jpg')" style="cursor: pointer;">
+        </div>
+        <div class="product-info">
+            <h3 class="product-title" onclick="openProduct('СУМКА', '7 000 ₸', 'product4.jpg')" style="cursor: pointer;">СУМКА</h3>
+            <span class="product-price">7 000 ₸</span>
+            <button class="add-to-cart-btn">В КОРЗИНУ</button>
+        </div>
+    </div>
+
+    <div class="product-card"  data-category="АКСЕССУАРЫ">
+        <div class="product-image">
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+            <img src="product5.jpg" alt="ЧЕХОЛ" onclick="openProduct('ЧЕХОЛ', '2 500 ₸', 'product5.jpg')" style="cursor: pointer;">
+        </div>
+        <div class="product-info">
+            <h3 class="product-title" onclick="openProduct('ЧЕХОЛ', '2 500 ₸', 'product5.jpg')" style="cursor: pointer;">ЧЕХОЛ</h3>
+            <span class="product-price">2 500 ₸</span>
+            <button class="add-to-cart-btn">В КОРЗИНУ</button>
+        </div>
+    </div>
+
+    <div class="product-card" data-category="ГОЛОВНЫЕ УБОРЫ">
+        <div class="product-image">
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+            <img src="product6.jpg" alt="БЕРЕТ" onclick="openProduct('БЕРЕТ', '3 000 ₸', 'product6.jpg')" style="cursor: pointer;">
+        </div>
+        <div class="product-info">
+            <h3 class="product-title" onclick="openProduct('БЕРЕТ', '3 000 ₸', 'product6.jpg')" style="cursor: pointer;">БЕРЕТ</h3>
+            <span class="product-price">3 000 ₸</span>
+            <button class="add-to-cart-btn">В КОРЗИНУ</button>
+        </div>
+    </div>
+
+    <div class="product-card" data-category="ВЕРХНЯЯ ОДЕЖДА">
+        <div class="product-image">
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+            <img src="product7.jpg" alt="ФУТБОЛКА" onclick="openProduct('ФУТБОЛКА', '8 500 ₸', 'product7.jpg')" style="cursor: pointer;">
+        </div>
+        <div class="product-info">
+            <h3 class="product-title" onclick="openProduct('ФУТБОЛКА', '8 500 ₸', 'product7.jpg')" style="cursor: pointer;">ФУТБОЛКА</h3>
+            <span class="product-price">8 500 ₸</span>
+            <button class="add-to-cart-btn">В КОРЗИНУ</button>
+        </div>
+    </div>
+
+    <div class="product-card" data-category="НИЖНЯЯ ОДЕЖДА">
+        <div class="product-image">
+            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+            <img src="product8.jpg" alt="ЮБКА" onclick="openProduct('ЮБКА', '4 000 ₸', 'product8.jpg')" style="cursor: pointer;">
+        </div>
+        <div class="product-info">
+            <h3 class="product-title" onclick="openProduct('ЮБКА', '4 000 ₸', 'product8.jpg')" style="cursor: pointer;">ЮБКА</h3>
+            <span class="product-price">4 000 ₸</span>
+            <button class="add-to-cart-btn">В КОРЗИНУ</button>
+        </div>
+    </div>
+</section>
+
+<div id="product-page" style="display: none; padding: 50px 10%; min-height: 80vh;">
+    <button onclick="showMainPage()" style="background: none; border: none; cursor: pointer; font-family: 'Oswald'; margin-bottom: 20px;">
+        <i class="fas fa-arrow-left"></i> НАЗАД К КАТАЛОГУ
+    </button>
+    
+    <div style="display: flex; gap: 50px; align-items: flex-start;">
+        <div style="flex: 1;">
+            <img id="p-img" src="" style="width: 100%; border-radius: 20px;">
+        </div>
+        <div style="flex: 1;">
+            <h1 id="p-title" style="font-family: 'Oswald'; font-size: 2.5rem; margin-bottom: 10px;"></h1>
+            <p id="p-price" style="font-size: 1.5rem; color: #FFB7CE; font-weight: bold; margin-bottom: 20px;"></p>
+            <p style="line-height: 1.6; color: #666; margin-bottom: 30px;">
+                Эксклюзивная модель из коллекции LAPIN. Идеальный крой, премиальные материалы и внимание к каждой детали. 
+                Подчеркните свою индивидуальность.
+            </p>
+            <button class="add-to-cart-btn" id="p-buy-btn" style="width: 250px;">ДОБАВИТЬ В КОРЗИНУ</button>
+        </div>
+    </div>
+    <div class="review-section">
+    <h3 class="review-title">ОТЗЫВЫ ПОКУПАТЕЛЕЙ</h3>
+    
+    <div id="review-container" class="review-list">
+        </div>
+
+    <div class="add-review-form">
+        <h4 class="form-title">ОСТАВИТЬ ОТЗЫВ</h4>
+        <div class="form-group">
+            <input type="text" id="rev-name" placeholder="Ваше имя" class="form-input">
+        </div>
+        <div class="form-group">
+            <textarea id="rev-text" placeholder="Ваш отзыв" class="form-textarea"></textarea>
+        </div>
+        <button onclick="addNewReview()" class="submit-review-btn">ОТПРАВИТЬ</button>
+    </div>
+</div>
+</div>
+
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h2 class="footer-logo">LAPIN</h2>
+            <p>Ваш идеальный гардероб начинается здесь.</p>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/d11ewer/" target="_blank">
+                <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://t.me/dxxeell" target="_blank">
+                <i class="fab fa-telegram-plane"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3>ПОКУПАТЕЛЯМ</h3>
+            <ul>
+                <li><a href="#">Оплата и доставка</a></li>
+                <li><a href="#">Возврат товара</a></li>
+                <li><a href="#">Таблица размеров</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>КОНТАКТЫ</h3>
+            <p><i class="fas fa-phone"></i> +7 (777) 000 00 00</p>
+            <p><i class="fas fa-envelope"></i> info@lapin.kz</p>
+            <p><i class="fas fa-map-marker-alt"></i> г. Астана, пр. Республики</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2026 LAPIN STORE. Все права защищены.
+    </div>
+</footer>
+
+<script>
+// 1. БАЗА ОТЗЫВОВ (Только один раз!)
+const fakeReview = {
+    'СВИТЕР': [
+        {name: 'Алина', text: 'Очень мягкий и теплый, цвет как на фото!'},
+        {name: 'Марина', text: 'Немного оверсайз, но мне нравится.'}
+    ],
+    'САПОГИ': [
+        {name: 'Камила', text: 'Качество супер, подошва не скользит.'}
+    ],
+    'ЮБКА': [
+        {name: 'Дана', text: 'Идеальная длина для офиса.'}
+    ],
+    'БРЮКИ': [{name: 'LAPIN', text: 'Прекрасно сидят по фигуре.'}],
+    'СУМКА': [{name: 'LAPIN', text: 'Очень вместительная и стильная.'}],
+    'ЧЕХОЛ': [{name: 'LAPIN', text: 'Качественный принт.'}],
+    'БЕРЕТ': [{name: 'LAPIN', text: 'Добавляет образу парижский шик.'}],
+    'ФУТБОЛКА': [{name: 'LAPIN', text: 'Приятный хлопок.'}]
+};
+
+// 2. ОБНОВЛЕНИЕ СЧЕТЧИКОВ КОРЗИНЫ И ИЗБРАННОГО
+function updateBadges() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    
+    const cartBadge = document.getElementById('cart-count');
+    const wishBadge = document.getElementById('wish-count');
+
+    if (cartBadge) {
+        cartBadge.innerText = cart.length;
+        cartBadge.style.display = cart.length > 0 ? 'block' : 'none';
+    }
+    if (wishBadge) {
+        wishBadge.innerText = wishlist.length;
+        wishBadge.style.display = wishlist.length > 0 ? 'inline-block' : 'none';
+    }
+}
+
+// 3. ОТКРЫТИЕ ТОВАРА (Чистая версия с баннерами и отзывами)
+function openProduct(title, price, img) {
+    const banner = document.querySelector('.banner-section');
+    const grid = document.querySelector('.products-grid');
+    const productPage = document.getElementById('product-page');
+
+    // Прячем главное
+    if (banner) banner.style.display = 'none';
+    if (grid) grid.style.display = 'none';
+
+    if (productPage) {
+        productPage.style.display = 'block';
+        document.getElementById('p-title').innerText = title;
+        document.getElementById('p-price').innerText = price;
+        document.getElementById('p-img').src = img;
+
+        // Заполняем отзывы
+        const reviewContainer = document.getElementById('review-container');
+        if (reviewContainer) {
+            reviewContainer.innerHTML = ''; 
+            const currentReview = fakeReview[title] || [{name: 'LAPIN', text: 'Будьте первым, кто оставит отзыв!'}];
+
+            currentReview.forEach(rev => {
+                const revHTML = `
+                    <div class="review-item">
+                        <span class="review-author">${rev.name}</span>
+                        <div class="review-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">${rev.text}</p>
+                    </div>
+                `;
+                reviewContainer.insertAdjacentHTML('beforeend', revHTML);
+            });
+        }
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 4. ВОЗВРАТ В КАТАЛОГ
+function showMainPage() {
+    const productPage = document.getElementById('product-page');
+    const banner = document.querySelector('.banner-section');
+    const grid = document.querySelector('.products-grid');
+
+    if (productPage) productPage.style.display = 'none';
+    if (banner) banner.style.display = 'flex';
+    if (grid) grid.style.display = 'grid';
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 5. ДОБАВЛЕНИЕ НОВОГО ОТЗЫВА
+function addNewReview() {
+    const name = document.getElementById('rev-name').value;
+    const text = document.getElementById('rev-text').value;
+    const reviewContainer = document.getElementById('review-container');
+
+    if (name && text && reviewContainer) {
+        const newRevHTML = `
+            <div class="review-item" style="animation: fadeIn 0.5s; border-left: 4px solid #FFB7CE;">
+                <span class="review-author">${name}</span>
+                <div class="review-stars">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="review-text">${text}</p>
+            </div>
+        `;
+        reviewContainer.insertAdjacentHTML('afterbegin', newRevHTML); 
+        document.getElementById('rev-name').value = '';
+        document.getElementById('rev-text').value = '';
+    } else {
+        alert("Заполните все поля!");
+    }
+}
+
+// 6. ОБРАБОТКА КНОПОК (Корзина и Избранное)
+document.addEventListener('DOMContentLoaded', () => {
+    updateBadges();
+
+    // В корзину
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.onclick = function() {
+            const card = this.closest('.product-card') || document.getElementById('product-page');
+            const product = {
+                title: card.querySelector('.product-title')?.innerText || document.getElementById('p-title').innerText,
+                price: card.querySelector('.product-price')?.innerText || document.getElementById('p-price').innerText,
+                img: card.querySelector('img').src,
+                id: Date.now() 
+            };
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateBadges();
+
+            const originalText = this.innerText;
+            this.innerText = "ДОБАВЛЕНО ✓";
+            setTimeout(() => { this.innerText = originalText; }, 1500);
+        };
+    });
+
+    // В избранное
+    document.querySelectorAll('.wishlist-btn').forEach(btn => {
+        btn.onclick = function() {
+            const card = this.closest('.product-card');
+            const icon = this.querySelector('i');
+            const product = {
+                title: card.querySelector('.product-title').innerText,
+                price: card.querySelector('.product-price').innerText,
+                img: card.querySelector('img').src
+            };
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const index = wishlist.findIndex(item => item.title === product.title);
+
+            if (index === -1) {
+                wishlist.push(product);
+                icon.classList.replace('far', 'fas');
+            } else {
+                wishlist.splice(index, 1);
+                icon.classList.replace('fas', 'far');
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            updateBadges();
+        };
+    });
+});
+
+// Открыть/Закрыть каталог
+function toggleCatalog() {
+    const overlay = document.getElementById('catalog-overlay');
+    if (overlay) {
+        overlay.style.display = (overlay.style.display === 'flex') ? 'none' : 'flex';
+    }
+}
+
+// Сама фильтрация
+function filterProducts(category) {
+    const cards = document.querySelectorAll('.product-card');
+    
+    cards.forEach(card => {
+        const productCat = card.getAttribute('data-category');
+        
+        if (category === 'ВСЕ' || productCat === category) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // Закрываем оверлей после выбора
+    const overlay = document.getElementById('catalog-overlay');
+    if (overlay) overlay.style.display = 'none';
+    
+    // Если мы были на странице товара, возвращаемся в каталог
+    showMainPage();
+}
+
+function runSearch() {
+    // 1. Получаем текст из поиска и переводим в нижний регистр (чтобы поиск не зависел от больших букв)
+    const query = document.getElementById('search-input').value.toLowerCase().trim();
+    
+    // 2. Находим все карточки товаров
+    const cards = document.querySelectorAll('.product-card');
+    let foundAny = false;
+
+    cards.forEach(card => {
+        // Берем заголовок товара из этой карточки
+        const title = card.querySelector('.product-title').innerText.toLowerCase();
+
+        // 3. Если заголовок содержит поисковое слово — показываем, иначе — прячем
+        if (title.includes(query)) {
+            card.style.display = 'block';
+            foundAny = true;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // 4. Если мы внутри страницы товара — выходим на главную, чтобы увидеть результаты
+    showMainPage();
+
+    // 5. Если ничего не нашли — можно вывести уведомление (по желанию)
+    if (!foundAny && query !== "") {
+        console.log("Ничего не найдено");
+        // Можно добавить: alert("Ничего не найдено по запросу: " + query);
+    }
+}
+
+// ДОПОЛНИТЕЛЬНО: Поиск при нажатии клавиши Enter
+document.getElementById('search-input').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        runSearch();
+    }
+});
+
+</script>
+
+<div id="catalog-overlay" onclick="toggleCatalog()">
+    <div class="catalog-modal" onclick="event.stopPropagation()">
+        <h2>КАТАЛОГ LAPIN</h2>
+        <div class="catalog-links">
+            <button onclick="filterProducts('ВСЕ')">ВСЕ ТОВАРЫ</button>
+            <button onclick="filterProducts('СВИТЕР')">ВЕРХНЯЯ ОДЕЖДА</button>
+            <button onclick="filterProducts('ЮБКА')">ЮБКИ</button>
+            <button onclick="filterProducts('БРЮКИ')">БРЮКИ</button>
+            <button onclick="filterProducts('СУМКА')">АКСЕССУАРЫ</button>
+        </div>
+    </div>
+</div>
+
+<div id="auth-modal" class="auth-overlay">
+    <div class="auth-content">
+        <button class="close-auth" onclick="closeAuth()">×</button>
+        
+        <h2 id="auth-title">РЕГИСТРАЦИЯ</h2>
+
+        <form id="auth-form" onsubmit="handleAuth(event)">
+            <input type="email" id="auth-email" placeholder="Email" required class="auth-input">
+            <input type="password" id="auth-password" placeholder="Пароль" required class="auth-input">
+            
+            <button type="submit" id="auth-submit-btn" class="auth-btn">СОЗДАТЬ АККАУНТ</button>
+        </form>
+
+        <p class="auth-switch">
+            <span id="switch-text">Уже есть аккаунт?</span> 
+            <a href="#" onclick="toggleAuthMode()" id="switch-link">Войти</a>
+        </p>
+    </div>
+</div>
+
+    </body>

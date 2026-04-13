@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Акции дня | LAPIN</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: #fdfdfd; 
+            font-family: 'Montserrat', sans-serif; 
+            margin: 0; 
+            padding: 0;
+        }
+
+        /* Контейнер всей страницы */
+        .sale-page {
+            padding: 20px 9% 50px;
+        }
+
+        /* Ссылка назад */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #FFB7CE;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .back-link:hover { opacity: 0.7; }
+
+        /* Заголовок страницы */
+        .sale-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Сетка как в WB (2 колонки) */
+        .sale-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        /* Карточка акции */
+        .sale-card {
+            background: white;
+            border-radius: 25px; /* Закругленные углы как в LAPIN */
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: block;
+            border: 1px solid #f0f0f0;
+        }
+
+        .sale-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Блок для картинки */
+        .sale-image-box {
+            width: 100%;
+            height: 280px; /* Фиксированная высота для ровности */
+            background: #eee;
+            overflow: hidden;
+        }
+
+        .sale-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Картинка заполняет блок без искажений */
+        }
+
+        /* Белая плашка с текстом под картинкой */
+        .sale-info {
+            padding: 18px 25px;
+            background: white;
+            color: #333;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Адаптивность для телефонов */
+        @media (max-width: 768px) {
+            .sale-grid { grid-template-columns: 1fr; }
+            .sale-page { padding: 20px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sale-page">
+        <a href="index.html" class="back-link">← НА ГЛАВНУЮ</a>
+        
+        <h1 class="sale-title">Акции дня</h1>
+
+        <div class="sale-grid">
+    <div class="sale-card" onclick="filterSale('clothing', 'Сделано в LAPIN')">
+        <div class="sale-image-box">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1000" alt="Сделано в LAPIN">
+        </div>
+        <div class="sale-info">Сделано в LAPIN</div>
+    </div>
+
+    <div class="sale-card" onclick="filterSale('accessories', 'Аксессуары')">
+        <div class="sale-image-box">
+            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1000" alt="Аксессуары">
+        </div>
+        <div class="sale-info">Аксессуары</div>
+    </div>
+
+    <div class="sale-card" onclick="filterSale('jackets', 'Куртки со скидками')">
+        <div class="sale-image-box">
+            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1000" alt="Куртки">
+        </div>
+        <div class="sale-info">Куртки со скидками</div>
+    </div>
+
+    <div class="sale-card" onclick="filterSale('shoes', 'Обувь по скидкам')">
+        <div class="sale-image-box">
+            <img src="street.avif" alt="Обувь">
+        </div>
+        <div class="sale-info">Обуви по скидкам</div>
+    </div>
+</div>
+
+<div id="sale-products-section" style="display: none; margin-top: 50px;">
+    <h2 id="category-title" class="sale-title"></h2>
+    <div class="products-grid" id="sale-items-container">
+        </div>
+</div>
+
+    <div id="sale-products-container" style="display: none; padding-top: 50px;">
+    <h2 id="current-category-title" class="sale-title">Товары по акции</h2>
+    <div class="products-grid" id="products-list">
+        </div>
+</div>
+    </div>
+<script>
+// Твоя база данных товаров (добавь сюда свои товары)
+const allProducts = [
+    { name: "Худи Оверсайз", price: "2500₽", category: "clothing", img: "hudi.jpg" },
+    { name: "Сумка Baguette", price: "1800₽", category: "accessories", img: "bag.jpg" },
+    { name: "Кеды White", price: "3200₽", category: "shoes", img: "shoes.jpg" },
+    { name: "Бомбер Classic", price: "4500₽", category: "sale", img: "bomber.jpg" }
+];
+
+function showCategory(category, title) {
+    const container = document.getElementById('sale-products-container');
+    const list = document.getElementById('products-list');
+    const titleElement = document.getElementById('current-category-title');
+
+    // Очищаем список перед добавлением
+    list.innerHTML = '';
+    
+    // Фильтруем товары
+    const filtered = allProducts.filter(p => p.category === category);
+
+    // Создаем карточки товаров (используй те же классы, что на главном сайте)
+    filtered.forEach(product => {
+        const card = `
+            <div class="product-card">
+                <img src="${product.img}" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p>${product.price}</p>
+                <button class="add-to-cart">В корзину</button>
+            </div>
+        `;
+        list.innerHTML += card;
+    });
+
+    // Показываем блок и меняем заголовок
+    container.style.display = 'block';
+    titleElement.innerText = title;
+
+    // Плавный скролл к товарам
+    container.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+<script>
+// 1. База твоих товаров (добавь сюда свои данные)
+const productsDB = [
+    { name: "Стильное худи", price: "2900₸", category: "clothing", img: "hoodie.webp" },
+    { name: "Черная сумка", price: "1500₸", category: "accessories", img: "black bag.jpg" },
+    { name: "Шуба", price: "9500₸", category: "jackets", img: "shuba.jpg" },
+    { name: "Белые платформы", price: "3000₸", category: "shoes", img: "demonia.webp" }
+];
+
+function filterSale(category, title) {
+    const section = document.getElementById('sale-products-section');
+    const container = document.getElementById('sale-items-container');
+    const titleLabel = document.getElementById('category-title');
+
+    // Очищаем контейнер
+    container.innerHTML = '';
+    
+    // Фильтруем товары из базы по категории
+    const filtered = productsDB.filter(item => item.category === category);
+
+    // Создаем карточки товаров
+    filtered.forEach(item => {
+        const productHTML = `
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="${item.img}" alt="${item.name}">
+                </div>
+                <div class="product-info">
+                    <h3>${item.name}</h3>
+                    <p class="price">${item.price}</p>
+                    <button class="add-btn">В корзину</button>
+                </div>
+            </div>
+        `;
+        container.innerHTML += productHTML;
+    });
+
+    // Показываем секцию и прокручиваем к ней
+    titleLabel.innerText = title;
+    section.style.display = 'block';
+    section.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+<script>
+    function filterSale(category, title) {
+        const section = document.getElementById('sale-products-section');
+        const container = document.getElementById('sale-items-container');
+        const titleLabel = document.getElementById('category-title');
+
+    container.innerHTML = '';
+    
+    const filtered = productsDB.filter(item => item.category === category);
+
+    filtered.forEach(item => {
+        // Здесь мы используем твою структуру: картинка, название, цена и розовая кнопка
+        const productHTML = `
+            <div class="product-card" style="background: white; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <div style="position: relative;">
+                    <img src="${item.img}" alt="${item.name}" style="width: 100%; border-radius: 15px;">
+                    <div style="position: absolute; top: 10px; right: 10px; background: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; color: #ffb7ce; cursor: pointer;">❤</div>
+                </div>
+                
+                <h3 style="font-family: 'Oswald', sans-serif; text-transform: uppercase; margin: 15px 0 5px; font-size: 1.1rem;">${item.name}</h3>
+                
+                <p style="font-weight: bold; font-size: 1.2rem; margin-bottom: 15px;">${item.price}</p>
+                
+                <button style="background: #FFB7CE; color: white; border: none; width: 100%; padding: 12px; border-radius: 15px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: 0.3s;">
+                    В корзину
+                </button>
+            </div>
+        `;
+        container.innerHTML += productHTML;
+    });
+
+    titleLabel.innerText = title;
+    section.style.display = 'block';
+    section.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
