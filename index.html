@@ -5,6 +5,20 @@
         <title>L A P I N</title>
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            @media (max-width: 480px) {
+                .brands-grid, .products-grid {
+                    grid-template-columns: repeat(2, 1fr) !important;
+                    gap: 10px;
+                }
+
+                .cat-circle {
+                    width: 80px !important;
+                    height: 80px !important;
+                }
+            }
+        </style>
     </head>
     <body>
         <header>
@@ -194,17 +208,130 @@
     <div id="review-container" class="review-list">
         </div>
 
-    <div class="add-review-form">
-        <h4 class="form-title">ОСТАВИТЬ ОТЗЫВ</h4>
-        <div class="form-group">
-            <input type="text" id="rev-name" placeholder="Ваше имя" class="form-input">
+<section class="reviews-section" style="padding: 50px 9%; font-family: 'Montserrat', sans-serif;">
+    <h2 style="font-family: 'Oswald'; text-transform: uppercase; text-align: center;">Отзывы покупателей</h2>
+    
+    <div id="reviews-list">
         </div>
-        <div class="form-group">
-            <textarea id="rev-text" placeholder="Ваш отзыв" class="form-textarea"></textarea>
+
+    <div class="leave-review-form" style="background: #fdfdfd; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 40px;">
+        <h3 style="text-align: center; font-family: 'Oswald';">ОСТАВИТЬ ОТЗЫВ</h3>
+        
+        <input type="text" id="rev-name" placeholder="Ваше имя" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px;">
+        
+        <div class="star-rating" style="margin-bottom: 15px; font-size: 1.5rem; color: #ddd; cursor: pointer;">
+            Оценка: 
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
         </div>
-        <button onclick="addNewReview()" class="submit-review-btn">ОТПРАВИТЬ</button>
+
+        <textarea id="rev-text" placeholder="Ваш отзыв" style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; min-height: 100px;"></textarea>
+        
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Прикрепить фото:</label>
+            <input type="file" id="rev-image" accept="image/*" style="font-size: 0.8rem;">
+        </div>
+
+        <button onclick="saveReview()" style="background: #FFB7CE; color: white; border: none; width: 100%; padding: 15px; border-radius: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase;">Отправить</button>
     </div>
-</div>
+</section>
+
+<script>
+    let selectedRating = 0;
+
+    // Логика выбора звезд
+    const stars = document.querySelectorAll('.star');
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            selectedRating = star.getAttribute('data-value');
+            updateStars();
+        });
+    });
+
+    function updateStars() {
+        stars.forEach(star => {
+            if (star.getAttribute('data-value') <= selectedRating) {
+                star.style.color = "#FFB7CE"; // Розовый для выбранных
+            } else {
+                star.style.color = "#ddd";
+            }
+        });
+    }
+
+    // Загрузка отзывов из памяти при старте
+    window.onload = function() {
+        displayReviews();
+    };
+
+    function saveReview() {
+        const name = document.getElementById('rev-name').value;
+        const text = document.getElementById('rev-text').value;
+        const imageInput = document.getElementById('rev-image');
+        
+        if (!name || !text || selectedRating === 0) {
+            alert("Пожалуйста, заполните имя, текст и выберите оценку!");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imageData = e.target.result; // Картинка в формате base64
+            
+            const newReview = {
+                name: name,
+                text: text,
+                rating: selectedRating,
+                image: imageInput.files.length > 0 ? imageData : null,
+                date: new Date().toLocaleDateString()
+            };
+
+            // Сохраняем в localStorage
+            let reviews = JSON.parse(localStorage.getItem('lapin_reviews')) || [];
+            reviews.push(newReview);
+            localStorage.setItem('lapin_reviews', JSON.stringify(reviews));
+
+            // Очищаем форму и обновляем список
+            document.getElementById('rev-name').value = '';
+            document.getElementById('rev-text').value = '';
+            imageInput.value = '';
+            selectedRating = 0;
+            updateStars();
+            displayReviews();
+        };
+
+        if (imageInput.files[0]) {
+            reader.readAsDataURL(imageInput.files[0]);
+        } else {
+            // Если фото нет, просто сохраняем
+            reader.onload({ target: { result: null } });
+        }
+    }
+
+    function displayReviews() {
+        const list = document.getElementById('reviews-list');
+        const reviews = JSON.parse(localStorage.getItem('lapin_reviews')) || [];
+        list.innerHTML = '';
+
+        reviews.forEach(rev => {
+            let starsHtml = '★'.repeat(rev.rating) + '☆'.repeat(5 - rev.rating);
+            let imgHtml = rev.image ? `<img src="${rev.image}" style="max-width: 150px; border-radius: 10px; margin-top: 10px; display: block;">` : '';
+            
+            list.innerHTML += `
+                <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); margin-bottom: 20px;">
+                    <strong style="color: #FFB7CE;">${rev.name}</strong>
+                    <div style="color: #FFB7CE; margin: 5px 0;">${starsHtml}</div>
+                    <p style="margin: 10px 0;">${rev.text}</p>
+                    ${imgHtml}
+                    <small style="color: #999; font-size: 0.7rem;">${rev.date}</small>
+                </div>
+            `;
+        });
+    }
+</script>
+    </div>
 </div>
 
 <footer class="main-footer">
@@ -244,26 +371,6 @@
 </footer>
 
 <script>
-// 1. БАЗА ОТЗЫВОВ (Только один раз!)
-const fakeReview = {
-    'СВИТЕР': [
-        {name: 'Алина', text: 'Очень мягкий и теплый, цвет как на фото!'},
-        {name: 'Марина', text: 'Немного оверсайз, но мне нравится.'}
-    ],
-    'САПОГИ': [
-        {name: 'Камила', text: 'Качество супер, подошва не скользит.'}
-    ],
-    'ЮБКА': [
-        {name: 'Дана', text: 'Идеальная длина для офиса.'}
-    ],
-    'БРЮКИ': [{name: 'LAPIN', text: 'Прекрасно сидят по фигуре.'}],
-    'СУМКА': [{name: 'LAPIN', text: 'Очень вместительная и стильная.'}],
-    'ЧЕХОЛ': [{name: 'LAPIN', text: 'Качественный принт.'}],
-    'БЕРЕТ': [{name: 'LAPIN', text: 'Добавляет образу парижский шик.'}],
-    'ФУТБОЛКА': [{name: 'LAPIN', text: 'Приятный хлопок.'}]
-};
-
-// 2. ОБНОВЛЕНИЕ СЧЕТЧИКОВ КОРЗИНЫ И ИЗБРАННОГО
 function updateBadges() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -475,7 +582,6 @@ document.getElementById('search-input').addEventListener('keypress', function (e
         runSearch();
     }
 });
-
 </script>
 
 <div id="catalog-overlay" onclick="toggleCatalog()">

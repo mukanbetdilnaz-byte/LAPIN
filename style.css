@@ -883,3 +883,65 @@ button.add-to-cart-btn:hover {
 .auth-switch { margin-top: 20px; font-size: 0.9rem; }
 .auth-switch a { color: #FFB7CE; text-decoration: none; font-weight: bold; }
 .close-auth { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; cursor: pointer; }
+/* Правила для планшетов и телефонов */
+@media (max-width: 768px) {
+    
+    /* 1. Делаем сетку товаров по 2 в ряд (вместо 4 или 5) */
+    .products-grid, .sale-grid, .brands-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+        padding: 0 5% !important;
+    }
+
+    /* 2. Адаптируем хедер и заголовки */
+    .brands-header h1 {
+        font-size: 1.8rem !important;
+        text-align: center;
+    }
+
+    /* 3. Делаем категории (кружки) прокручиваемыми пальцем */
+    .categories-row {
+        gap: 10px !important;
+        padding-left: 5% !important;
+        justify-content: flex-start !important;
+    }
+
+    /* 4. Карточка товара: уменьшаем отступы, чтобы всё влезло */
+    .product-card {
+        padding: 10px !important;
+        border-radius: 15px !important;
+    }
+
+    .product-card h3 {
+        font-size: 0.9rem !important;
+    }
+}
+
+/* Правила для совсем маленьких телефонов */
+@media (max-width: 480px) {
+    .brands-header h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    /* Если карточки всё равно тесно, можно сделать по 1 в ряд */
+    /* .products-grid { grid-template-columns: 1fr !important; } */
+}
+/* Адаптация хедера для телефонов */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column; /* Элементы встанут друг под другом */
+        align-items: center;
+        padding: 10px;
+    }
+
+    .logo {
+        font-size: 2rem !important; /* Уменьшаем буквы L A P I N */
+        letter-spacing: 5px;
+        margin-bottom: 10px;
+    }
+
+    .search-container {
+        width: 90% !important; /* Поиск станет на всю ширину экрана */
+        margin: 0 auto;
+    }
+}

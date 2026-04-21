@@ -5,6 +5,7 @@
     <title>Акции дня | LAPIN</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { 
             background: #fdfdfd; 
@@ -91,6 +92,19 @@
             .sale-grid { grid-template-columns: 1fr; }
             .sale-page { padding: 20px 5%; }
         }
+        @media (max-width: 480px) {
+    /* Делаем сетку брендов и товаров по 2 в ряд */
+    .brands-grid, .products-grid {
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 10px;
+    }
+
+    /* Уменьшаем кружки категорий, чтобы их было видно больше */
+    .cat-circle {
+        width: 80px !important;
+        height: 80px !important;
+    }
+}
     </style>
 </head>
 <body>
